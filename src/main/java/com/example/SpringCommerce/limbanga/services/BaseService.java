@@ -22,6 +22,7 @@ public abstract class BaseService<T extends BaseModel, ID> {
     }
 
     public T create(T model) {
+        model.setId(null);
         return repository.save(model);
     }
 
