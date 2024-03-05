@@ -4,6 +4,7 @@ package com.example.SpringCommerce.limbanga.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.Columns;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -19,4 +20,7 @@ public class Product extends BaseModel {
 
     @ManyToOne
     private Category category;
+
+    @Transient
+    private Long categoryId;
 }
