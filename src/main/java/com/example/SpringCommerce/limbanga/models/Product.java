@@ -1,7 +1,8 @@
 package com.example.SpringCommerce.limbanga.models;
 
 
-import jakarta.persistence.Entity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import lombok.*;
 
 @EqualsAndHashCode(callSuper = true)
@@ -10,8 +11,12 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 @Entity
+@Table(name = "products")
 public class Product extends BaseModel {
     private String name;
     private Double price;
     private String color;
+
+    @ManyToOne
+    private Category category;
 }

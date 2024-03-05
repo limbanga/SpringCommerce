@@ -24,13 +24,14 @@ class SeedingDatabase {
             var cate = Category.builder()
                     .name("Seeding name")
                     .build();
-            var createdCate =  categoryRepository.save(cate);
-            log.info("Preloading " + createdCate);
+            var createdCategory =  categoryRepository.save(cate);
+            log.info("Preloading " + createdCategory);
 
             var product = Product.builder()
                     .name("Seed product")
                     .price(999.0)
                     .color("red")
+                    .category(createdCategory)
                     .build();
 
             var createdProduct = productRepository.save(product);
