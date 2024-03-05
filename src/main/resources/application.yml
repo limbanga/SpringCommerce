@@ -4,9 +4,12 @@ spring:
     username: root
     password: ''
     driver-class-name: com.mysql.jdbc.Driver
+
   jpa:
     hibernate:
       ddl-auto: create-drop
     show-sql: true
 
+jwt:
+  secret: "T3Df29gNUOGFodLD9HhWVPsa50onU7NF"
 
