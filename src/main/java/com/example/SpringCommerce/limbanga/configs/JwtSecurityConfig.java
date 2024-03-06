@@ -34,7 +34,8 @@ public class JwtSecurityConfig {
 
     @Bean
     public AuthenticationManager authenticationManager(
-            final AuthenticationConfiguration authenticationConfiguration) throws Exception {
+            final AuthenticationConfiguration authenticationConfiguration)
+            throws Exception {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(jwtUserDetailsService);
         authProvider.setPasswordEncoder(passwordEncoder());

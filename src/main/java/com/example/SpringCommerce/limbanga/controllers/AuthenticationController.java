@@ -6,7 +6,6 @@ import com.example.SpringCommerce.limbanga.services.JwtTokenService;
 import com.example.SpringCommerce.limbanga.services.JwtUserDetailsService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.apache.catalina.Authenticator;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -19,7 +18,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequiredArgsConstructor
-public class AuthenticationResource {
+public class AuthenticationController {
 
     private final AuthenticationManager authenticationManager;
     private final JwtUserDetailsService jwtUserDetailsService;
@@ -34,7 +33,7 @@ public class AuthenticationResource {
                     authenticationRequest.getPassword()
             );
 
-            var authenticationResponse = authenticationManager.authenticate(authenticationToken);
+            authenticationManager.authenticate(authenticationToken);
         } catch (final BadCredentialsException ex) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }

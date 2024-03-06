@@ -17,10 +17,8 @@ public class JwtUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(final String username) {
         // logic to load user from DB
-        var user = appUserRepository.findByUsername(username).orElse(null);
-//                .orElseThrow(
-//                () -> new UsernameNotFoundException("User " + username + " not found"));
+        var user = appUserRepository.findByUsername(username).orElseThrow(
+                () -> new UsernameNotFoundException("User " + username + " not found"));
         return user;
     }
-
 }

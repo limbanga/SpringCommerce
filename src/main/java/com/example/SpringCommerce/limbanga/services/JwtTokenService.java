@@ -15,11 +15,9 @@ import java.time.Instant;
 
 @Service
 public class JwtTokenService {
-
     private static final org.slf4j.Logger log = LoggerFactory.getLogger(JwtTokenService.class);
-
-    private static final Duration JWT_TOKEN_VALIDITY = Duration.ofMinutes(20);
-
+    @Value("${jwt.duration-millisecond}")
+    private Long jwtDuration;
     private final Algorithm hmac512;
     private final JWTVerifier verifier;
 
@@ -32,9 +30,10 @@ public class JwtTokenService {
         final Instant now = Instant.now();
         return JWT.create()
                 .withSubject(userDetails.getUsername())
-                .withIssuer("app")
+                .withClaim("username", userDetails.getUsername())
+                .withIssuer("limbanga")
                 .withIssuedAt(now)
-                .withExpiresAt(now.plusMillis(JWT_TOKEN_VALIDITY.toMillis()))
+                .withExpiresAt(now.plusMillis(jwtDuration))
                 .sign(this.hmac512);
     }
 
