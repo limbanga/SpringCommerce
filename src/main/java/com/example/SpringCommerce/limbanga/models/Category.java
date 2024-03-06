@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 
 import java.util.List;
@@ -17,6 +18,7 @@ import java.util.List;
 @Entity
 @Table(name = "categories")
 public class Category extends BaseModel {
+    @NotEmpty(message = "Name is required")
     private String name;
 
     @JsonIgnore

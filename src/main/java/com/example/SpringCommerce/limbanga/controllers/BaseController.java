@@ -3,6 +3,7 @@ package com.example.SpringCommerce.limbanga.controllers;
 import com.example.SpringCommerce.limbanga.models.BaseModel;
 import com.example.SpringCommerce.limbanga.models.Category;
 import com.example.SpringCommerce.limbanga.services.BaseService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,7 +33,7 @@ public abstract class BaseController<T extends BaseModel, ID> {
     }
 
     @PostMapping
-    public ResponseEntity<T> create(@RequestBody T body) {
+    public ResponseEntity<T> create(@Valid @RequestBody T body) {
         var model = service.create(body);
 
         if (model == null) {
