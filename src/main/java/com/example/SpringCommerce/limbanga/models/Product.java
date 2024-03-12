@@ -17,15 +17,10 @@ import org.hibernate.annotations.Columns;
 @Entity
 @Table(name = "products")
 public class Product extends BaseModel {
-    @NotEmpty(message = "Name is required")
-    @NotNull(message = "Name is required")
+    @NotEmpty(message = "Product name is required")
     private String name;
-    private Double price;
-    private String color;
-
     @ManyToOne
     private Category category;
-
-    @Transient
+    @Transient // this field for modify actions
     private Long categoryId;
 }

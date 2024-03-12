@@ -38,8 +38,6 @@ class SeedingDatabase {
 
             var product = Product.builder()
                     .name("Seed product")
-                    .price(999.0)
-                    .color("red")
                     .category(createdCategory)
                     .build();
 
