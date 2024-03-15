@@ -9,6 +9,8 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.annotations.Columns;
 
+import java.util.List;
+
 @EqualsAndHashCode(callSuper = true)
 @Data
 @NoArgsConstructor
@@ -22,6 +24,11 @@ public class Product extends BaseModel {
     private String code;
     @ManyToOne
     private Category category;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "product")
+    private List<ProductVariant> productVariants;
+
     @Transient // this field for modify actions
     private Long categoryId;
 }
