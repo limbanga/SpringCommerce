@@ -1,13 +1,7 @@
 package com.example.SpringCommerce.limbanga.seeds;
 
-import com.example.SpringCommerce.limbanga.models.AppUser;
-import com.example.SpringCommerce.limbanga.models.Category;
-import com.example.SpringCommerce.limbanga.models.Product;
-import com.example.SpringCommerce.limbanga.models.ProductVariant;
-import com.example.SpringCommerce.limbanga.repositories.AppUserRepository;
-import com.example.SpringCommerce.limbanga.repositories.CategoryRepository;
-import com.example.SpringCommerce.limbanga.repositories.ProductRepository;
-import com.example.SpringCommerce.limbanga.repositories.ProductVariantRepository;
+import com.example.SpringCommerce.limbanga.models.*;
+import com.example.SpringCommerce.limbanga.repositories.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -30,9 +24,12 @@ class SeedingDatabase {
             CategoryRepository categoryRepository,
             ProductRepository productRepository,
             ProductVariantRepository productVariantRepository,
+            ProductVariant_SizeRepository productVariant_sizeRepository,
             AppUserRepository appUserRepository) {
 
         return args -> {
+            final String SEED_TAG = "Insert>>";
+
             var cate = Category.builder()
                     .name("T-Shirt")
                     .build();
@@ -58,13 +55,22 @@ class SeedingDatabase {
                     .build();
 
             redTShirt = productVariantRepository.save(redTShirt);
-            log.info("Insert " + redTShirt);
+            log.info(SEED_TAG + redTShirt);
 
+            var redTShirtSizeS = ProductVariant_Size.builder()
+                    .productVariant(redTShirt)
+                    .productSize(ProductSize.SIZE_S)
+                    .price(99_000.0)
+                    .stock(136)
+                    .build();
 
-            var hashpass = passwordEncoder.encode("123456");
+            redTShirtSizeS = productVariant_sizeRepository.save(redTShirtSizeS);
+            log.info(SEED_TAG + redTShirtSizeS);
+
+            var hashedPassword = passwordEncoder.encode("123456");
             var appUser = AppUser.builder()
                     .username("admin")
-                    .password(hashpass)
+                    .password(hashedPassword)
                     .build();
 
             var createdUser = appUserRepository.save(appUser);

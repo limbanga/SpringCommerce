@@ -3,8 +3,11 @@ package com.example.SpringCommerce.limbanga.models;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.*;
+
+import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -18,4 +21,7 @@ public class ProductVariant extends BaseModel {
     private Product product;
 
     private String image;
+
+    @OneToMany(mappedBy = "productVariant")
+    private List<ProductVariant_Size> productVariant_sizes;
 }
