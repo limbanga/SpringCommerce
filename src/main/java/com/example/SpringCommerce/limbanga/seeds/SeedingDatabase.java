@@ -31,13 +31,14 @@ class SeedingDatabase {
 
         return args -> {
             var cate = Category.builder()
-                    .name("Seeding name")
+                    .name("T-Shirt")
                     .build();
             var createdCategory =  categoryRepository.save(cate);
             log.info("Preloading " + createdCategory);
 
             var product = Product.builder()
-                    .name("Seed product")
+                    .name("Summer T-Shirt")
+                    .code("APX-3489")
                     .category(createdCategory)
                     .build();
 

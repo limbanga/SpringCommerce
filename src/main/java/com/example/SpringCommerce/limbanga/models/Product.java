@@ -19,6 +19,7 @@ import org.hibernate.annotations.Columns;
 public class Product extends BaseModel {
     @NotEmpty(message = "Product name is required")
     private String name;
+    private String code;
     @ManyToOne
     private Category category;
     @Transient // this field for modify actions
