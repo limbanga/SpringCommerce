@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ProductVariant_SizeRepository
-        extends JpaRepository<ProductVariant_Size, Long> {
+        extends BaseRepository<ProductVariant_Size, Long> {
 }
