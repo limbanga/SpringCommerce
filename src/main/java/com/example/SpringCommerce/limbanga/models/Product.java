@@ -19,6 +19,7 @@ public class Product extends BaseModel {
     @NotEmpty(message = "Product name is required")
     private String name;
     private String code;
+    private String slugUrl;
     @ManyToOne
     private Category category;
 

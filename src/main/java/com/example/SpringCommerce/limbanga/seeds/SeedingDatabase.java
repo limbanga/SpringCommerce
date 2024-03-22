@@ -40,6 +40,7 @@ class SeedingDatabase {
             var product = Product.builder()
                     .name("Summer T-Shirt")
                     .code("APX-3489")
+                    .slugUrl("summer-t-shirt-4")
                     .category(createdCategory)
                     .build();
 

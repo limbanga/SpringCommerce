@@ -14,4 +14,8 @@ public class ProductService
         super(productRepository);
         this.productRepository = productRepository;
     }
+
+    public Product getBySlug(String slug) {
+        return productRepository.findBySlugUrl(slug).orElse(null);
+    }
 }
