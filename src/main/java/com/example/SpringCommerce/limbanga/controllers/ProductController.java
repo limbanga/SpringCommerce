@@ -36,7 +36,7 @@ public class ProductController
         }
         body.setCategory(category);
 
-        String slug = SlugHelper.createSlug(body.getName());
+        String slug = SlugHelper.createSlug(body.getName()+ body.getCode());
         body.setSlugUrl(slug);
 
         return super.create(body);

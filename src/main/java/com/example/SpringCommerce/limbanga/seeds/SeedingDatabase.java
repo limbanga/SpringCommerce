@@ -61,7 +61,7 @@ class SeedingDatabase {
             // insert size M
             var redTShirtSizeM = ProductVariant_Size.builder()
                     .productVariant(redTShirt)
-                    .productSize(ProductSize.SIZE_M)
+                    .productSize(ProductSize.M)
                     .price(135_000.0)
                     .stock(50)
                     .build();
@@ -71,7 +71,7 @@ class SeedingDatabase {
             // insert size S
             var redTShirtSizeS = ProductVariant_Size.builder()
                     .productVariant(redTShirt)
-                    .productSize(ProductSize.SIZE_S)
+                    .productSize(ProductSize.S)
                     .price(99_000.0)
                     .stock(136)
                     .build();
