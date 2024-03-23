@@ -47,6 +47,7 @@ class SeedingDatabase {
             var createdProduct = productRepository.save(product);
             log.info(SEED_TAG + createdProduct);
 
+            // insert red variant
             var redTShirt = ProductVariant.builder()
                     .image("https://static.nike.com/a/images/t_PDP_17" +
                             "28_v1/f_auto,q_auto:eco,u_126ab356-44d8-4a06-89b4" +
@@ -58,7 +59,19 @@ class SeedingDatabase {
 
             redTShirt = productVariantRepository.save(redTShirt);
             log.info(SEED_TAG + redTShirt);
-            // insert size M
+
+            // insert blue variant
+            var blueTShirt = ProductVariant.builder()
+                    .image("https://th.bing.com/th/id/R.98e331b7d" +
+                            "ddebe9ed29656e9af2ae54d?rik=UHjNbMc" +
+                            "%2fauE41Q&pid=ImgRaw&r=0")
+                    .product(createdProduct)
+                    .build();
+
+            blueTShirt = productVariantRepository.save(blueTShirt);
+            log.info(SEED_TAG + blueTShirt);
+
+            // insert red size M
             var redTShirtSizeM = ProductVariant_Size.builder()
                     .productVariant(redTShirt)
                     .productSize(ProductSize.M)
@@ -68,7 +81,7 @@ class SeedingDatabase {
             redTShirtSizeM = productVariant_sizeRepository.save(redTShirtSizeM);
             log.info(SEED_TAG + redTShirtSizeM);
 
-            // insert size S
+            // insert red size S
             var redTShirtSizeS = ProductVariant_Size.builder()
                     .productVariant(redTShirt)
                     .productSize(ProductSize.S)
