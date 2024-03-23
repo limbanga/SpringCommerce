@@ -55,6 +55,8 @@ public class ProductVariant_SizeController
         if (variantId != null) {
             list = list.stream().filter(x -> x.getProductVariant().getId().equals(variantId)).toList();
         }
+
+        list = list.stream().sorted(Comparator.comparing(ProductVariant_Size::getProductSize)).toList();
         return ResponseEntity.ok(list);
     }
 }
