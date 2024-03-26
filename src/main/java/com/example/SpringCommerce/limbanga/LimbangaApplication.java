@@ -9,3 +9,4 @@ public class LimbangaApplication {
 		SpringApplication.run(LimbangaApplication.class, args);
 	}
 }
+

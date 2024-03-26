@@ -16,14 +16,14 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "product_variants")
-public class ProductVariant extends BaseModel {
+@Table(name = "variants")
+public class Variant extends BaseModel {
     @ManyToOne
     private Product product;
 
     private String image;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "productVariant")
-    private List<ProductVariant_Size> productVariant_sizes;
+    @OneToMany(mappedBy = "variant", orphanRemoval = true)
+    private List<Size> _sizes;
 }

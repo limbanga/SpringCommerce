@@ -12,10 +12,10 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "product_variant__sizes")
-public class ProductVariant_Size extends BaseModel {
+@Table(name = "sizes")
+public class Size extends BaseModel {
     @ManyToOne
-    private ProductVariant productVariant;
+    private Variant variant;
     private ProductSize productSize;
     private Integer stock;
     private Double price;
