@@ -20,7 +20,6 @@ import java.util.List;
 public class Variant extends BaseModel {
     @ManyToOne
     private Product product;
-
     private String image;
 
     @JsonIgnore
