@@ -1,16 +1,17 @@
 package com.example.SpringCommerce.limbanga.requests;
 
+
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.Data;
+import lombok.NonNull;
 
 @Data
 public class AuthenticationRequest {
-    @NotNull
-    @Size(max = 255)
-    private String login;
-
-    @NotNull
-    @Size(max = 255)
+    @NotEmpty(message = "Username is required")
+    @Email(message = "Invalid email")
+    private String username;
+    @NotEmpty(message = "Password is required")
     private String password;
 }

@@ -227,11 +227,10 @@ class SeedingDatabase {
              * End insert product 2
              * */
 
-
             // insert admin
             var hashedPassword = passwordEncoder.encode("123456");
             var appUser = AppUser.builder()
-                    .username("admin")
+                    .username("admin@gmail.com")
                     .password(hashedPassword)
                     .build();
             var createdUser = appUserRepository.save(appUser);

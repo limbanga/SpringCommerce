@@ -38,18 +38,18 @@ public class AuthenticationController {
     @PostMapping("/authenticate")
     public AuthenticationResponse authenticate(
             @RequestBody @Valid final AuthenticationRequest authenticationRequest) {
+        // get username and password from request
+        var username = authenticationRequest.getUsername();
+        var password = authenticationRequest.getPassword();
+        // authenticate user
         try {
-            var authenticationToken = new UsernamePasswordAuthenticationToken(
-                    authenticationRequest.getLogin(),
-                    authenticationRequest.getPassword()
-            );
-
+            var authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
             authenticationManager.authenticate(authenticationToken);
         } catch (final BadCredentialsException ex) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
-
-        final UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(authenticationRequest.getLogin());
+        // success -> load user from db
+        final UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(username);
         final AuthenticationResponse authenticationResponse = new AuthenticationResponse();
         authenticationResponse.setAccessToken(jwtTokenService.generateToken(userDetails));
         return authenticationResponse;
