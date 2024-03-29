@@ -6,7 +6,6 @@ import jakarta.persistence.Table;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
@@ -30,7 +29,7 @@ public class AppUser extends BaseModel implements UserDetails {
     @ElementCollection
     @Override
     public Collection<GrantedAuthority> getAuthorities() {
-        return Collections.singleton(new SimpleGrantedAuthority("ROLE_" + USER));
+        return Collections.singleton(new SimpleGrantedAuthority(USER));
     }
 
     @Override
