@@ -55,6 +55,7 @@ public class JwtSecurityConfig {
                 )
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((authorize) -> authorize
+                                .requestMatchers("/secret**").authenticated()
                                 .anyRequest().permitAll()
 //                        .requestMatchers("/", "/authenticate").permitAll()
 //                        .anyRequest().hasAuthority(UserRoles.ROLE_USER.toString())
