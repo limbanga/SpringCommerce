@@ -1,7 +1,7 @@
 package com.example.SpringCommerce.limbanga.controllers;
 
+import com.example.SpringCommerce.limbanga.appexceptions.CustomValidationException;
 import com.example.SpringCommerce.limbanga.helpers.SlugHelper;
-import com.example.SpringCommerce.limbanga.models.Category;
 import com.example.SpringCommerce.limbanga.models.Product;
 import com.example.SpringCommerce.limbanga.services.CategoryService;
 import com.example.SpringCommerce.limbanga.services.ProductService;
@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/products/")
@@ -29,27 +28,35 @@ public class ProductController
     }
 
     @Override
-    public ResponseEntity<Product> create(Product body) {
-        var category = categoryService.getById(body.getCategoryId());
+    public ResponseEntity<Product> create(Product body)
+            throws CustomValidationException {
+        // error handling when category is null
+        if (body.getCategory() == null || body.getCategory().getId() == null) {
+            throw new CustomValidationException("categoryId", "CategoryId is required");
+        }
+
+        //  error handling when category not found, set category
+        var category = categoryService.getById(body.getCategory().getId());
         if (category == null) {
-            return ResponseEntity.badRequest().build();
+            throw new CustomValidationException("categoryId", "CategoryId is don't exist");
         }
         body.setCategory(category);
 
-        String slug = SlugHelper.createSlug(body.getName()+ body.getCode());
+        // generate slug URL
+        String slug = SlugHelper.createSlug(body.getName() + body.getCode());
         body.setSlugUrl(slug);
-
+        // call super create method
         return super.create(body);
     }
 
     @Override
     public ResponseEntity<Product> update(Long id, Product body) {
 
-        if (body.getCategoryId() == null) {
+        if (body.getCategory().getId() == null) {
             return ResponseEntity.badRequest().build();
         }
 
-        var category = categoryService.getById(body.getCategoryId());
+        var category = categoryService.getById(body.getCategory().getId());
 
         if (category == null) {
             return ResponseEntity.badRequest().build();

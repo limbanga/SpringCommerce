@@ -19,6 +19,7 @@ import java.util.List;
 public class Product extends BaseModel {
     @NotEmpty(message = "Product name is required")
     private String name;
+    @NotEmpty(message = "Product code is required")
     private String code;
     private String slugUrl;
     @ManyToOne
@@ -27,7 +28,4 @@ public class Product extends BaseModel {
     @JsonIgnore
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Variant> variants = new ArrayList<>();
-
-    @Transient // this field for modify actions
-    private Long categoryId;
 }

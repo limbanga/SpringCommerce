@@ -1,5 +1,6 @@
 package com.example.SpringCommerce.limbanga.controllers;
 
+import com.example.SpringCommerce.limbanga.appexceptions.CustomValidationException;
 import com.example.SpringCommerce.limbanga.models.BaseModel;
 import com.example.SpringCommerce.limbanga.models.Category;
 import com.example.SpringCommerce.limbanga.services.BaseService;
@@ -33,7 +34,7 @@ public abstract class BaseController<T extends BaseModel, ID> {
     }
 
     @PostMapping
-    public ResponseEntity<T> create(@Valid @RequestBody T body) {
+    public ResponseEntity<T> create(@Valid @RequestBody T body) throws CustomValidationException {
         var model = service.create(body);
 
         if (model == null) {

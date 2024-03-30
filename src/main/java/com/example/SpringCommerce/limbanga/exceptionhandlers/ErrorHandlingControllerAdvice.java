@@ -1,5 +1,6 @@
 package com.example.SpringCommerce.limbanga.exceptionhandlers;
 
+import com.example.SpringCommerce.limbanga.appexceptions.CustomValidationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -27,4 +28,12 @@ class ErrorHandlingControllerAdvice {
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
 
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(CustomValidationException.class)
+    public ResponseEntity<Object> handleCustomValidationExceptions(
+            CustomValidationException ex) {
+        Map<String, String> errors = new HashMap<>();
+        errors.put(ex.getFieldName(), ex.getErrorMessage());
+        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+    }
 }
