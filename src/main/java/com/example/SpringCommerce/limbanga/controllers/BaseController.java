@@ -45,7 +45,9 @@ public abstract class BaseController<T extends BaseModel, ID> {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<T> update(@PathVariable ID id, @RequestBody T body) {
+    public ResponseEntity<T> update(
+            @PathVariable ID id,
+            @RequestBody T body) {
         var model = service.getById(id);
         if (model == null) {
             return ResponseEntity.notFound().build();

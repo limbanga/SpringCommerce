@@ -29,12 +29,33 @@ class SeedingDatabase {
 
         return args -> {
             final String SEED_TAG = "Insert:::___";
-            // insert category
+            // insert category 1
             var cate = Category.builder()
                     .name("T-Shirt")
                     .build();
             var createdCategory = categoryRepository.save(cate);
             log.info(SEED_TAG + createdCategory);
+
+            // insert category 2
+            var cateDress = Category.builder()
+                    .name("Dress")
+                    .build();
+            cateDress = categoryRepository.save(cateDress);
+            log.info(SEED_TAG + cateDress);
+
+            // insert category 3
+            var cateGlasses = Category.builder()
+                    .name("Glasses")
+                    .build();
+            cateGlasses = categoryRepository.save(cateGlasses);
+            log.info(SEED_TAG + cateGlasses);
+
+            // insert category 4
+            var cateShort = Category.builder()
+                    .name("Short")
+                    .build();
+            cateShort = categoryRepository.save(cateShort);
+            log.info(SEED_TAG + cateShort);
 
             /*
             * Insert product 1
@@ -157,7 +178,7 @@ class SeedingDatabase {
             // insert pink size S
             var pinkTShirtSizeS2 = Size.builder()
                     .variant(pinkTShirt2)
-                    .productSize(ProductSize.M)
+                    .productSize(ProductSize.S)
                     .price(155_000.0)
                     .stock(55)
                     .build();

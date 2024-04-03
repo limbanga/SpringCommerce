@@ -26,6 +26,6 @@ public class Product extends BaseModel {
     private Category category;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Variant> variants = new ArrayList<>();
 }
