@@ -17,7 +17,7 @@ import java.util.UUID;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/upload")
+@RequestMapping("/upload/")
 public class UploadController {
 
     private final Cloudinary cloudinary;

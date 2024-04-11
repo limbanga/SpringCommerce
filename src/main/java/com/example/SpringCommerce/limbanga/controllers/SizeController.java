@@ -23,31 +23,6 @@ public class SizeController
         this.sizeService = sizeService;
     }
 
-    // endpoint lấy ra mỗi product 1 sản phẩm duy nhất -> fill cho index page
-    @GetMapping("unique")
-    public ResponseEntity<List<Size>> getUniquePerProduct() {
-        var returnList = new ArrayList<Size>();
-        var list = sizeService.getAll();
-        // make sure minimum size is taken
-        list = list.stream()
-                .sorted(Comparator.comparing(Size::getProductSize))
-                .toList();
-
-        list.forEach(x -> {
-            var productId = x.getVariant().getProduct().getId();
-            var isDuplicate = returnList.stream()
-                    .anyMatch(y -> {
-                        var productIdIn = y.getVariant().getProduct().getId();
-                        return productId.equals(productIdIn);
-                    });
-            if (!isDuplicate) {
-                returnList.add(x);
-            }
-        });
-
-        return ResponseEntity.ok(returnList);
-    }
-
     @GetMapping("filter-by")
     public ResponseEntity<List<Size>> filterBy(
             @RequestParam(value = "variantId", required = false) Long variantId) {

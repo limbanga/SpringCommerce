@@ -2,10 +2,7 @@ package com.example.SpringCommerce.limbanga.models;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.List;
@@ -23,6 +20,6 @@ public class Variant extends BaseModel {
     private String image;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "variant", orphanRemoval = true)
+    @OneToMany(mappedBy = "variant", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Size> _sizes;
 }
