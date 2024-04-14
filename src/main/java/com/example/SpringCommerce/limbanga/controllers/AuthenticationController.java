@@ -65,11 +65,4 @@ public class AuthenticationController {
         return ResponseEntity.ok("Register successfully");
     }
 
-    @GetMapping("/secret")
-    public String secret(@AuthenticationPrincipal AppUser appUser) {
-        var roles = "";
-        // todo: handle roles
-        appUser.getAuthorities().forEach(x -> roles.concat(x.getAuthority()));
-        return "user name:"+ appUser.getUsername()+ " roles: "+ roles;
-    }
 }

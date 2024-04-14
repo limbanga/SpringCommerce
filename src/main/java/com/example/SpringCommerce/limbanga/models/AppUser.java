@@ -2,6 +2,7 @@ package com.example.SpringCommerce.limbanga.models;
 
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -10,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 import static com.example.SpringCommerce.limbanga.services.JwtUserDetailsService.USER;
 
@@ -28,6 +30,9 @@ public class AppUser extends BaseModel implements UserDetails {
     private String phoneNumber;
     private String username;
     private String password;
+
+    @OneToMany(mappedBy = "owner")
+    private List<Order> orders;
 
     @ElementCollection
     @Override

@@ -29,6 +29,7 @@ public class AppUserService {
 
     var hashedPassword = passwordEncoder.encode(registerRequest.getPassword());
 
+    // todo add roles
     var appUser = AppUser.builder()
             .firstName(registerRequest.getFirstName())
             .lastName(registerRequest.getLastName())
