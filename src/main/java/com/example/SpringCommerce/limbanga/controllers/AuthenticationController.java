@@ -58,7 +58,7 @@ public class AuthenticationController {
 
     @PostMapping("/register")
     public ResponseEntity<String> register(
-            @RequestBody RegisterRequest registerRequest
+            @Valid @RequestBody RegisterRequest registerRequest
     )
             throws CustomValidationException {
         appUserService.register(registerRequest);
