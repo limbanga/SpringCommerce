@@ -1,5 +1,6 @@
 package com.example.SpringCommerce.limbanga.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
@@ -31,6 +32,7 @@ public class AppUser extends BaseModel implements UserDetails {
     private String username;
     private String password;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "owner")
     private List<Order> orders;
 
@@ -40,6 +42,7 @@ public class AppUser extends BaseModel implements UserDetails {
         return Collections.singleton(new SimpleGrantedAuthority(USER));
     }
 
+    @JsonIgnore
     @Override
     public String getPassword() {
         return password;

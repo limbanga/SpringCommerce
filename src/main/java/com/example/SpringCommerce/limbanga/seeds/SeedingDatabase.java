@@ -25,7 +25,9 @@ class SeedingDatabase {
             ProductRepository productRepository,
             VariantRepository productVariantRepository,
             SizeRepository _sizeRepository,
-            AppUserRepository appUserRepository) {
+            AppUserRepository appUserRepository,
+            OrderRepository orderRepository
+    ) {
 
         return args -> {
             final String SEED_TAG = "Insert:::___";
@@ -256,6 +258,16 @@ class SeedingDatabase {
                     .build();
             var createdUser = appUserRepository.save(appUser);
             log.info(SEED_TAG + createdUser);
+
+            var order1 = Order.builder()
+                    .owner(createdUser)
+                    .totalPay(100_000.0)
+                    .paymentStatus(PaymentStatus.Completed)
+                    .shippingDate(null)
+                    .arriveDate(null)
+                    .build();
+            order1 = orderRepository.save(order1);
+            log.info(SEED_TAG + order1);
         };
     }
 }
