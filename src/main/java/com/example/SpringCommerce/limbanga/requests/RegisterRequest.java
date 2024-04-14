@@ -4,8 +4,9 @@ import lombok.Data;
 
 @Data
 public class RegisterRequest {
-    // todo: add validation email
+    private String firstName;
+    private String lastName;
+    private String phoneNumber;
     private String username;
     private String password;
-    private String displayName;
 }

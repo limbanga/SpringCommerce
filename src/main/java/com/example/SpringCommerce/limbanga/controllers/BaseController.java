@@ -34,7 +34,8 @@ public abstract class BaseController<T extends BaseModel, ID> {
     }
 
     @PostMapping
-    public ResponseEntity<T> create(@Valid @RequestBody T body) throws CustomValidationException {
+    public ResponseEntity<T> create(@Valid @RequestBody T body)
+            throws CustomValidationException {
         var model = service.create(body);
 
         if (model == null) {

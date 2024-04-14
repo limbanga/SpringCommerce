@@ -19,4 +19,5 @@ public class Size extends BaseModel {
     private ProductSize productSize;
     private Integer stock;
     private Double price;
+    private Boolean isActive = false;
 }

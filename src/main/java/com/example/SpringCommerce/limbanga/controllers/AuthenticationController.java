@@ -1,5 +1,6 @@
 package com.example.SpringCommerce.limbanga.controllers;
 
+import com.example.SpringCommerce.limbanga.appexceptions.CustomValidationException;
 import com.example.SpringCommerce.limbanga.models.AppUser;
 import com.example.SpringCommerce.limbanga.repositories.AppUserRepository;
 import com.example.SpringCommerce.limbanga.requests.AuthenticationRequest;
@@ -56,9 +57,12 @@ public class AuthenticationController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody RegisterRequest registerRequest) {
+    public ResponseEntity<String> register(
+            @RequestBody RegisterRequest registerRequest
+    )
+            throws CustomValidationException {
         appUserService.register(registerRequest);
-        return ResponseEntity.ok("register success");
+        return ResponseEntity.ok("Register successfully");
     }
 
     @GetMapping("/secret")
