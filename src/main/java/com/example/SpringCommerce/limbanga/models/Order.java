@@ -1,6 +1,5 @@
 package com.example.SpringCommerce.limbanga.models;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
@@ -8,7 +7,9 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
+
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -16,16 +17,18 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "sizes")
-public class Size extends BaseModel {
+@Table(name = "orders")
+public class Order extends BaseModel {
     @ManyToOne
-    private Variant variant;
-    private ProductSize productSize;
-    private Integer stock;
-    private Double price;
-    private Boolean isActive = false;
+    private AppUser owner;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "size")
+    @OneToMany(mappedBy = "order")
     private List<OrderDetail> orderDetails;
+
+    private Double totalPay;
+    private PaymentStatus paymentStatus;
+    private LocalDateTime shippingDate;
+    private LocalDateTime arriveDate;
 }
+

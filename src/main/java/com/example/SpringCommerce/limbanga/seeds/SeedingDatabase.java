@@ -9,6 +9,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.List;
+
 
 @Configuration
 class SeedingDatabase {
@@ -26,7 +28,8 @@ class SeedingDatabase {
             VariantRepository productVariantRepository,
             SizeRepository _sizeRepository,
             AppUserRepository appUserRepository,
-            OrderRepository orderRepository
+            OrderRepository orderRepository,
+            OrderDetailRepository orderDetailRepository
     ) {
 
         return args -> {
@@ -253,6 +256,9 @@ class SeedingDatabase {
             // insert admin
             var hashedPassword = passwordEncoder.encode("123456");
             var appUser = AppUser.builder()
+                    .firstName("first")
+                    .lastName("last")
+                    .phoneNumber("0123456789")
                     .username("admin@gmail.com")
                     .password(hashedPassword)
                     .build();
@@ -262,12 +268,22 @@ class SeedingDatabase {
             var order1 = Order.builder()
                     .owner(createdUser)
                     .totalPay(100_000.0)
-                    .paymentStatus(PaymentStatus.Completed)
+                    .paymentStatus(PaymentStatus.InCart)
                     .shippingDate(null)
                     .arriveDate(null)
                     .build();
+
             order1 = orderRepository.save(order1);
             log.info(SEED_TAG + order1);
+
+           var orderDetail1 = OrderDetail.builder()
+                    .order(order1)
+                    .size(redTShirtSizeM)
+                    .quantity(1)
+                    .build();
+           orderDetail1 = orderDetailRepository.save(orderDetail1);
+           log.info(SEED_TAG + orderDetail1);
+
         };
     }
 }

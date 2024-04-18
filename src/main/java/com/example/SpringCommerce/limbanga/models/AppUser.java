@@ -24,7 +24,9 @@ import static com.example.SpringCommerce.limbanga.services.JwtUserDetailsService
 @Builder
 @Entity
 @Table(name = "appUsers")
-public class AppUser extends BaseModel implements UserDetails {
+public class AppUser
+        extends BaseModel
+        implements UserDetails {
 
     private String firstName;
     private String lastName;
