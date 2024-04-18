@@ -35,4 +35,9 @@ public class OrderService
     public List<OrderDetail> getCartDetails(Long id) {
         return orderDetailRepository.findByOrderId(id);
     }
+
+    public OrderDetail setCartDetail(OrderDetail cartDetail) {
+        // todo: check if product is available
+        return orderDetailRepository.save(cartDetail);
+    }
 }
