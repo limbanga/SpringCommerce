@@ -1,5 +1,6 @@
 package com.example.SpringCommerce.limbanga.services;
 
+import com.example.SpringCommerce.limbanga.models.AppUser;
 import com.example.SpringCommerce.limbanga.models.Order;
 import com.example.SpringCommerce.limbanga.models.OrderDetail;
 import com.example.SpringCommerce.limbanga.models.PaymentStatus;
@@ -39,5 +40,9 @@ public class OrderService
     public OrderDetail setCartDetail(OrderDetail cartDetail) {
         // todo: check if product is available
         return orderDetailRepository.save(cartDetail);
+    }
+
+    public void removeCartItem(Long id) {
+        orderDetailRepository.deleteById(id);
     }
 }

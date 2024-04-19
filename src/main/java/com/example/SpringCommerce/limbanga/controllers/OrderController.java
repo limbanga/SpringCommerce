@@ -1,12 +1,13 @@
 package com.example.SpringCommerce.limbanga.controllers;
 
+import com.example.SpringCommerce.limbanga.appexceptions.CustomValidationException;
 import com.example.SpringCommerce.limbanga.models.AppUser;
 import com.example.SpringCommerce.limbanga.models.Order;
 import com.example.SpringCommerce.limbanga.models.OrderDetail;
 import com.example.SpringCommerce.limbanga.models.PaymentStatus;
-import com.example.SpringCommerce.limbanga.services.BaseService;
 import com.example.SpringCommerce.limbanga.services.OrderService;
 import com.example.SpringCommerce.limbanga.services.SizeService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -49,22 +50,18 @@ public class OrderController extends BaseController<Order, Long> {
         return orderService.getCartDetails(id);
     }
 
-    @GetMapping("/cart/{id}/{productId}/{quantity}")
-    public OrderDetail setCartItem(
+    @GetMapping("/cart/{sizeId}/{quantity}")
+    public ResponseEntity<OrderDetail> setCartItem(
             @AuthenticationPrincipal AppUser user,
-            @PathVariable Long id,
-            @PathVariable Long productId,
-            @PathVariable Integer quantity) {
+            @PathVariable Long sizeId,
+            @PathVariable Integer quantity)
+            throws CustomValidationException {
         // todo: test this endpoint
-        // quantity = -1 for remove
-        if (quantity <= 0) {
-            return null;
-        }
 
         // check size existed or not
-        var size = sizeService.getById(productId);
+        var size = sizeService.getById(sizeId);
         if (size == null) {
-            return null;
+            throw new CustomValidationException("sizeId", "Item not found exist");
         }
 
         // get or create cart
@@ -77,12 +74,30 @@ public class OrderController extends BaseController<Order, Long> {
             orderService.create(cart);
         }
 
-        // get or create cart detail
+        // get to update or create or delete new cart detail
         var cartDetail = orderService.getCartDetails(cart.getId()).stream()
-                .filter(detail -> detail.getSize().getId().equals(productId))
+                .filter(detail -> detail.getSize().getId().equals(sizeId))
                 .findFirst()
                 .orElse(null);
 
+        /*
+        * REMOVE CART DETAIL CASE
+        * */
+        // quantity = -1 for remove
+        if (quantity <= 0) {
+            // remove cart detail if existed
+            if (cartDetail != null) {
+                orderService.removeCartItem(cartDetail.getId());
+            }
+            return ResponseEntity.ok().build();
+        }
+
+        /*
+         * UPDATE CART DETAIL CASE
+         * */
+
+        // quantity > 0 for update or create
+        // new cart detail if not existed
         if (cartDetail == null) {
             cartDetail = OrderDetail.builder()
                     .order(cart)
@@ -91,9 +106,8 @@ public class OrderController extends BaseController<Order, Long> {
         }
 
         cartDetail.setQuantity(quantity);
-        // todo: implement this method
 
-        return orderService.setCartDetail(cartDetail);
+        return ResponseEntity.ok(orderService.setCartDetail(cartDetail));
     }
 
 }
