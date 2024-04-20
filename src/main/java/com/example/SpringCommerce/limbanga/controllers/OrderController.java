@@ -19,7 +19,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/orders/")
-public class OrderController extends BaseController<Order, Long> {
+public class OrderController
+        extends BaseController<Order, Long> {
     private final OrderService orderService;
     private final SizeService sizeService;
 
@@ -36,6 +37,8 @@ public class OrderController extends BaseController<Order, Long> {
     public Order getCart(@AuthenticationPrincipal AppUser user) {
         return orderService.getCart(user.getId());
     }
+
+
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/cart/{id}")
     public List<OrderDetail> getCartDetails(
@@ -108,6 +111,18 @@ public class OrderController extends BaseController<Order, Long> {
         cartDetail.setQuantity(quantity);
 
         return ResponseEntity.ok(orderService.setCartDetail(cartDetail));
+    }
+
+    @GetMapping("/checkout")
+    public ResponseEntity<Order> checkout(
+            @AuthenticationPrincipal AppUser user) {
+        // todo: test this endpoint
+        var cart = orderService.getCart(user.getId());
+        if (cart == null) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        return ResponseEntity.ok(orderService.checkout(cart));
     }
 
 }

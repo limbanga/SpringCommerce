@@ -12,4 +12,4 @@ spring:
 
 jwt:
   secret: "T3Df29gNUOGFodLD9HhWVPsa50onU7NF"
-  duration-millisecond: 3000000 # 50 minutes
+  duration-millisecond: 300000000 # 50 minutes

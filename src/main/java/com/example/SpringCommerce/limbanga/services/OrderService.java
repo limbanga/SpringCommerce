@@ -38,11 +38,33 @@ public class OrderService
     }
 
     public OrderDetail setCartDetail(OrderDetail cartDetail) {
-        // todo: check if product is available
         return orderDetailRepository.save(cartDetail);
     }
 
     public void removeCartItem(Long id) {
         orderDetailRepository.deleteById(id);
+    }
+
+    public Order checkout(Order cart) {
+        /*
+        *   UPDATE CART STATUS
+        * */
+        cart.setPaymentStatus(PaymentStatus.Pending);
+        var today = java.time.LocalDateTime.now();
+        cart.setShippingDate(today);
+        cart.setArriveDate(today.plusDays(7));
+
+        /*
+        * CALCULATE TOTAL PAY
+        * */
+        var orderDetails = getCartDetails(cart.getId());
+        // calculate sum total price of products in cart
+        var total = orderDetails.stream()
+                .mapToDouble(orderDetail -> orderDetail.getSize().getPrice() *
+                                        orderDetail.getQuantity())
+                .sum();
+        cart.setTotalPay(total);
+
+        return repository.save(cart);
     }
 }
