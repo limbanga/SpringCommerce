@@ -40,6 +40,7 @@ public class OrderController
     }
 
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/cart/{id}")
     public ResponseEntity<List<OrderDetail>> getCartDetails(
             @AuthenticationPrincipal AppUser user,
@@ -53,6 +54,7 @@ public class OrderController
         return ResponseEntity.ok(orderService.getCartDetails(id));
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/cart/{sizeId}/{quantity}")
     public ResponseEntity<OrderDetail> setCartItem(
             @AuthenticationPrincipal AppUser user,
@@ -113,6 +115,7 @@ public class OrderController
         return ResponseEntity.ok(orderService.setCartDetail(cartDetail));
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/checkout")
     public ResponseEntity<Order> checkout(
             @AuthenticationPrincipal AppUser user) {
