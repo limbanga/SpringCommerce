@@ -34,23 +34,23 @@ public class OrderController
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/cart")
-    public Order getCart(@AuthenticationPrincipal AppUser user) {
-        return orderService.getCart(user.getId());
+    public ResponseEntity<Order> getCart(
+            @AuthenticationPrincipal AppUser user) {
+        return ResponseEntity.ok(orderService.getCart(user.getId()));
     }
 
 
-    @PreAuthorize("isAuthenticated()")
     @GetMapping("/cart/{id}")
-    public List<OrderDetail> getCartDetails(
+    public ResponseEntity<List<OrderDetail>> getCartDetails(
             @AuthenticationPrincipal AppUser user,
             @PathVariable Long id) {
         var cart = orderService.getById(id);
         if (!cart.getId().equals(user.getId())
                 || !cart.getPaymentStatus().equals(PaymentStatus.InCart)) {
-            return null;
+            return ResponseEntity.badRequest().build();
         }
 
-        return orderService.getCartDetails(id);
+        return ResponseEntity.ok(orderService.getCartDetails(id));
     }
 
     @GetMapping("/cart/{sizeId}/{quantity}")
