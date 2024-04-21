@@ -36,7 +36,15 @@ public class OrderController
     @GetMapping("/cart")
     public ResponseEntity<Order> getCart(
             @AuthenticationPrincipal AppUser user) {
-        return ResponseEntity.ok(orderService.getCart(user.getId()));
+        var cart = orderService.getCart(user.getId());
+        if (cart == null) {
+            cart = Order.builder()
+                   .owner(user)
+                   .paymentStatus(PaymentStatus.InCart)
+                   .build();
+            cart = orderService.create(cart);
+        }
+        return ResponseEntity.ok(cart);
     }
 
 
@@ -46,7 +54,7 @@ public class OrderController
             @AuthenticationPrincipal AppUser user,
             @PathVariable Long id) {
         var cart = orderService.getById(id);
-        if (!cart.getId().equals(user.getId())
+        if (!cart.getOwner().getId().equals(user.getId())
                 || !cart.getPaymentStatus().equals(PaymentStatus.InCart)) {
             return ResponseEntity.badRequest().build();
         }
