@@ -80,8 +80,10 @@ public class ProductController
     @GetMapping("filter-by")
     public ResponseEntity<List<Product>> filterBy(
             @RequestParam(value = "categoryId", required = false) Long categoryId,
-            @RequestParam(value = "category", required = false) String categoryName
-    ) {
+            @RequestParam(value = "category", required = false) String categoryName,
+            @RequestParam(value = "q", required = false) String search,
+            @RequestParam(value = "orderBy", required = false) String orderBy) {
+
         var list = productService.getAll();
         var stream = list.stream();
 
@@ -89,13 +91,22 @@ public class ProductController
             stream = stream.filter(x -> x.getCategory().getId().equals(categoryId));
         }
 
-        if (!categoryName.isBlank() && !categoryName.equals("All")) {
+        if (categoryName != null && !categoryName.isBlank() && !categoryName.equals("All")) {
             stream = stream.filter(x -> x.getCategory().getName().equals(categoryName));
         }
 
-        stream = stream.sorted(Comparator.comparing(Product::getUpdated));
+        if (search != null && !search.isBlank()) {
+            stream = stream.filter(x -> x.getName().contains(search) || x.getCode().contains(search));
+        }
+
+        if (orderBy != null && !orderBy.isBlank() && orderBy.equals("oldest")) {
+            stream = stream.sorted(Comparator.comparing(Product::getId).reversed());
+        } else {
+            stream = stream.sorted(Comparator.comparing(Product::getId));
+        }
 
         list = stream.toList();
         return ResponseEntity.ok(list);
+
     }
 }
