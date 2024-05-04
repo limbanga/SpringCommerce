@@ -58,13 +58,20 @@ public class OrderService
         * CALCULATE TOTAL PAY
         * */
         var orderDetails = getCartDetails(cart.getId());
-        // calculate sum total price of products in cart
-        var total = orderDetails.stream()
-                .mapToDouble(orderDetail -> orderDetail.getSize().getPrice() *
-                                        orderDetail.getQuantity())
-                .sum();
+        var total = 0.0;
+        for (OrderDetail orderDetail : orderDetails) {
+            orderDetail.setTotal(orderDetail.getSize().getPrice() * orderDetail.getQuantity());
+            total += orderDetail.getTotal();
+            orderDetailRepository.save(orderDetail);
+        }
+
         cart.setTotalPay(total);
 
         return repository.save(cart);
+    }
+
+    public List<Order> getOrderByOwner(Long ownerId) {
+
+        return repository.findByOwnerId(ownerId);
     }
 }

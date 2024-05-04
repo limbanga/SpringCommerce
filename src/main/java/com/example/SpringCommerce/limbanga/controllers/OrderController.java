@@ -33,7 +33,14 @@ public class OrderController
     }
 
     @PreAuthorize("isAuthenticated()")
-    @GetMapping("/cart")
+    @GetMapping("owner")
+    public List<Order> getByOwner(
+            @AuthenticationPrincipal AppUser user) {
+        return orderService.getOrderByOwner(user.getId());
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("cart")
     public ResponseEntity<Order> getCart(
             @AuthenticationPrincipal AppUser user) {
         var cart = orderService.getCart(user.getId());
@@ -46,7 +53,6 @@ public class OrderController
         }
         return ResponseEntity.ok(cart);
     }
-
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/cart/{id}")
@@ -136,4 +142,9 @@ public class OrderController
         return ResponseEntity.ok(orderService.checkout(cart));
     }
 
+    @GetMapping("/items/{id}")
+    public ResponseEntity<List<OrderDetail>> getOrderItems(
+            @PathVariable Long id) {
+        return ResponseEntity.ok(orderService.getCartDetails(id));
+    }
 }

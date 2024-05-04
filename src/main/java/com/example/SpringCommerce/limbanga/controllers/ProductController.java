@@ -3,13 +3,14 @@ package com.example.SpringCommerce.limbanga.controllers;
 import com.example.SpringCommerce.limbanga.appexceptions.CustomValidationException;
 import com.example.SpringCommerce.limbanga.helpers.SlugHelper;
 import com.example.SpringCommerce.limbanga.models.Product;
+import com.example.SpringCommerce.limbanga.models.Size;
 import com.example.SpringCommerce.limbanga.services.CategoryService;
 import com.example.SpringCommerce.limbanga.services.ProductService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Comparator;
+import java.util.List;
 
 
 @RestController
@@ -74,5 +75,27 @@ public class ProductController
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(product);
+    }
+
+    @GetMapping("filter-by")
+    public ResponseEntity<List<Product>> filterBy(
+            @RequestParam(value = "categoryId", required = false) Long categoryId,
+            @RequestParam(value = "category", required = false) String categoryName
+    ) {
+        var list = productService.getAll();
+        var stream = list.stream();
+
+        if (categoryId != null) {
+            stream = stream.filter(x -> x.getCategory().getId().equals(categoryId));
+        }
+
+        if (!categoryName.isBlank() && !categoryName.equals("All")) {
+            stream = stream.filter(x -> x.getCategory().getName().equals(categoryName));
+        }
+
+        stream = stream.sorted(Comparator.comparing(Product::getUpdated));
+
+        list = stream.toList();
+        return ResponseEntity.ok(list);
     }
 }
