@@ -1,3 +1,28 @@
+# 52100813 - Huỳnh Thanh Liêm
+# E - SpringCommerce
+# About this project
+- Short Desciption
+> The project is building a E-Commerce using `Spring boot` (java) as backend, `mysql` as system database,and `reactjs` for frontend part.
+
+> I built an website allow the admin can manange their product as well as sell it online.
+
+- Features
+> Use case
+![hinh anh](./previews/usecase.png)
+- Data management
+> class diagram
+![class_diagram](./previews/class_diagram.png)
+- Development pricples
+> The project is develop in Scrum, with the period is 1 week. Every week I will preview the project and plan for what to do in the next week.
+
+- System architecture
+> In backend I use monolithic architecture by building REST api
+
+> In frontend part I building Single page application using reactjs
+
+- Demo
+> [Click me to view demo](https://drive.google.com/drive/folders/14LbKYMWyzgK59ZyFzle5ccqrzl_Rry8D?usp=sharing)
+
 # About this repo
 > This is backend part of the project
 > I built with Spring Boot, Spring Data JPA, Spring Security, and MySQL
