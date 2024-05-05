@@ -13,6 +13,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.access.prepost.PreFilter;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.nio.file.attribute.UserPrincipal;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -65,4 +67,9 @@ public class AuthenticationController {
         return ResponseEntity.ok("Register successfully");
     }
 
+    @GetMapping("/users/")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<List<AppUser>> getAll() {
+        return ResponseEntity.ok(appUserService.getAll()) ;
+    }
 }

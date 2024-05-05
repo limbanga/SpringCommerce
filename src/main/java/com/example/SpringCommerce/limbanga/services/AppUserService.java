@@ -2,11 +2,14 @@ package com.example.SpringCommerce.limbanga.services;
 
 import com.example.SpringCommerce.limbanga.appexceptions.CustomValidationException;
 import com.example.SpringCommerce.limbanga.models.AppUser;
+import com.example.SpringCommerce.limbanga.models.AppUserRole;
 import com.example.SpringCommerce.limbanga.repositories.AppUserRepository;
 import com.example.SpringCommerce.limbanga.requests.RegisterRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -17,27 +20,32 @@ public class AppUserService {
 
     public void register(RegisterRequest registerRequest)
             throws CustomValidationException {
-    // check if the username is already taken
-    if (appUserRepository.existsByUsername(registerRequest.getUsername())) {
-        throw new CustomValidationException("username", "Username is already taken");
+        // check if the username is already taken
+        if (appUserRepository.existsByUsername(registerRequest.getUsername())) {
+            throw new CustomValidationException("username", "Username is already taken");
+        }
+
+        // check phoneNumber is existed
+        if (appUserRepository.existsByPhoneNumber(registerRequest.getPhoneNumber())) {
+            throw new CustomValidationException("phoneNumber", "Phone number is already taken");
+        }
+
+        var hashedPassword = passwordEncoder.encode(registerRequest.getPassword());
+
+        // todo add roles
+        var appUser = AppUser.builder()
+                .firstName(registerRequest.getFirstName())
+                .lastName(registerRequest.getLastName())
+                .phoneNumber(registerRequest.getPhoneNumber())
+                .username(registerRequest.getUsername())
+                .password(hashedPassword)
+                .appUserRole(AppUserRole.USER)
+                .build();
+
+        appUserRepository.save(appUser);
     }
 
-    // check phoneNumber is existed
-    if (appUserRepository.existsByPhoneNumber(registerRequest.getPhoneNumber())) {
-        throw new CustomValidationException("phoneNumber", "Phone number is already taken");
+    public List<AppUser> getAll() {
+        return appUserRepository.findAll();
     }
-
-    var hashedPassword = passwordEncoder.encode(registerRequest.getPassword());
-
-    // todo add roles
-    var appUser = AppUser.builder()
-            .firstName(registerRequest.getFirstName())
-            .lastName(registerRequest.getLastName())
-            .phoneNumber(registerRequest.getPhoneNumber())
-            .username(registerRequest.getUsername())
-            .password(hashedPassword)
-            .build();
-
-    appUserRepository.save(appUser);
-}
 }
