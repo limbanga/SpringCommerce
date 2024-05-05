@@ -1,10 +1,7 @@
 package com.example.SpringCommerce.limbanga.controllers;
 
 import com.example.SpringCommerce.limbanga.appexceptions.CustomValidationException;
-import com.example.SpringCommerce.limbanga.models.AppUser;
-import com.example.SpringCommerce.limbanga.models.Order;
-import com.example.SpringCommerce.limbanga.models.OrderDetail;
-import com.example.SpringCommerce.limbanga.models.PaymentStatus;
+import com.example.SpringCommerce.limbanga.models.*;
 import com.example.SpringCommerce.limbanga.services.OrderService;
 import com.example.SpringCommerce.limbanga.services.SizeService;
 import org.springframework.http.ResponseEntity;
@@ -142,9 +139,19 @@ public class OrderController
         return ResponseEntity.ok(orderService.checkout(cart));
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/items/{id}")
     public ResponseEntity<List<OrderDetail>> getOrderItems(
-            @PathVariable Long id) {
+            @PathVariable Long id,
+            @AuthenticationPrincipal AppUser user) {
+        final boolean isAdmin =user.getAppUserRole().equals(AppUserRole.ADMIN);
+        var order = orderService.getById(id);
+        final boolean isOwner = user.getId().equals(order.getOwner().getId());
+
+        if (!isAdmin || !isOwner) {
+            return ResponseEntity.badRequest().build();
+        }
+
         return ResponseEntity.ok(orderService.getCartDetails(id));
     }
 }
