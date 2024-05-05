@@ -47,10 +47,10 @@
 
 default admin credentials
 ```
-username: admin
-password: admin
+username: admin@gmail.com
+password: 123456
 ```
-> Video guide how to run. [link]()
+> Video guide how to run. [link](https://drive.google.com/drive/folders/14LbKYMWyzgK59ZyFzle5ccqrzl_Rry8D?usp=sharing)
 
 
 
