@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
 @Service
-public class JwtUserDetailsService implements UserDetailsService {
-    public static final String USER = "USER";
+public class JwtUserDetailsService
+        implements UserDetailsService {
 
     private final AppUserRepository appUserRepository;
 

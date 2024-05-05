@@ -260,6 +260,7 @@ class SeedingDatabase {
                     .lastName("last")
                     .phoneNumber("0123456789")
                     .username("admin@gmail.com")
+                    .appUserRole(AppUserRole.ADMIN)
                     .password(hashedPassword)
                     .build();
             var createdUser = appUserRepository.save(appUser);

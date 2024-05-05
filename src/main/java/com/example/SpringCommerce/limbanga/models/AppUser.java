@@ -11,10 +11,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
-import static com.example.SpringCommerce.limbanga.services.JwtUserDetailsService.USER;
 
 
 @EqualsAndHashCode(callSuper = true)
@@ -33,6 +31,7 @@ public class AppUser
     private String phoneNumber;
     private String username;
     private String password;
+    private AppUserRole appUserRole;
 
     @JsonIgnore
     @OneToMany(mappedBy = "owner")
@@ -41,7 +40,7 @@ public class AppUser
     @ElementCollection
     @Override
     public Collection<GrantedAuthority> getAuthorities() {
-        return Collections.singleton(new SimpleGrantedAuthority(USER));
+        return List.of(new SimpleGrantedAuthority(appUserRole.name()));
     }
 
     @JsonIgnore

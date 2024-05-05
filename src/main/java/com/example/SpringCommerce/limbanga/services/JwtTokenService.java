@@ -28,9 +28,11 @@ public class JwtTokenService {
 
     public String generateToken(final UserDetails userDetails) {
         final Instant now = Instant.now();
+        final String role = userDetails.getAuthorities().stream().findFirst().orElseThrow().getAuthority();
         return JWT.create()
                 .withSubject(userDetails.getUsername())
                 .withClaim("username", userDetails.getUsername())
+                .withClaim("role", role)
                 .withIssuer("limbanga")
                 .withIssuedAt(now)
                 .withExpiresAt(now.plusMillis(jwtDuration))
